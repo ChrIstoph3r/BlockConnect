@@ -196,14 +196,14 @@ public class BlokonectMain {
 		
 		clicksLeft--;
 		
-		int exponent;
+		float exponent;
     	
 		if(level > 1)
 			exponent = 2; 
 		else
-			exponent = 1;
+			exponent = 1.5f;
 				
-		int baseScore = linkedBubblesAmount*level;
+		int baseScore = linkedBubblesAmount*(level + 1);
 		
 		score += Math.pow(baseScore, exponent);
 	}

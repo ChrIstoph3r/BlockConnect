@@ -7,7 +7,6 @@ public class ReadFile {
 	private File file;
 	String highscore = "0";
 	String name = "";
-	boolean hasContent = false;
 	
 	public void openFile(){
 		
@@ -36,17 +35,12 @@ public class ReadFile {
 			
 		if(scanner.hasNext()){
 			
-			hasContent = true;
+			highscore  = scanner.next();
 			
 			while(scanner.hasNext()) {
-				highscore  = scanner.next();
-				name = scanner.next();
+				name += scanner.next() + " ";
 			}
 		}
-	}
-		
-	public boolean hasContent(){
-		return hasContent;
 	}
 		
 	public String getName(){
