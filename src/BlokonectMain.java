@@ -44,6 +44,8 @@ public class BlokonectMain {
 		mapDrawer = new MapDrawer(mapDesign.getBubblesOnMap() );
 		addComponentsToFrame(mapDrawer);
 		
+		if(clicksLeft < 1)noMoreTurns();
+		
 		MouseWhisperer.onClick(mapDrawer);
 	}
 	
@@ -61,9 +63,9 @@ public class BlokonectMain {
 
    	    if(response == 1){
     	
-	    	String ROWSinput = inputPrompt("Enter the amount of rows u want! (no more than 12!");  
-	    	String COLUMNSinput = inputPrompt( "Enter the amount of columns u want! (No more than 14!)" );
-	    	String clicksPrLvlInput = inputPrompt("Enter the amount of clicks u want per level!");
+	    	String ROWSinput = inputPrompt("Enter the amount of rows u want :D (no more than 12!");  
+	    	String COLUMNSinput = inputPrompt( "Enter the amount of columns u want =) (No more than 14!)" );
+	    	String clicksPrLvlInput = inputPrompt("Enter the amount of clicks u want per level :) ");
 	    	
 	    	ROWS = Integer.parseInt (ROWSinput);
 			COLUMNS = Integer.parseInt (COLUMNSinput);
@@ -75,6 +77,7 @@ public class BlokonectMain {
 	    	String[] highscore = readHighscore();
 	    	message(" Name: " + highscore[0] 
 	    		  + "\n Score: " + highscore[1], " Highscore");
+	    	optionsPopUp();
 	    }
 	}
 	
@@ -129,22 +132,16 @@ public class BlokonectMain {
 	
 	public static void noMoreTurns(){
 		
-		removeComponentsFromFrame();
-		
 		if (level < 3){
-   			initNewMapVars();
-   			nextLevelSequence();
+			nextLevelSequence();
+			initNewMapVars();
+			removeComponentsFromFrame();
    			gameLoop(true);
    		 }else{
    			initNewMapVars();
    			endOfGameSequence();
    			resetGame();
    		 }		
-	}
-	
-	public static boolean itsNoMoreTurns(){
-		if(clicksLeft < 1)return true;
-		return false;
 	}
 	
 	public static void endOfGameSequence(){

@@ -20,11 +20,6 @@ public class MouseWhisperer {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				
-				if(itsNoMoreTurns()){
-					BlokonectMain.noMoreTurns();
-					return;
-				}
-				
 				if(e.getX() < marginX || e.getY() < marginY)
 					return;
 				
@@ -37,10 +32,5 @@ public class MouseWhisperer {
 		   	 	BlokonectMain.validClick(clickedXpos, clickedYpos);
 			}
 		});
-	}
-	
-	private static boolean itsNoMoreTurns(){
-		
-		return BlokonectMain.itsNoMoreTurns();
 	}
 }

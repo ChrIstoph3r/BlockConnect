@@ -171,8 +171,6 @@ public class MapDesign extends Tools{
 	
 	public int linkedAmount(Block rootBubble, Block bubble){
 		
-		if(bubble == null) System.out.println("what?");
-		
 		if(!isColorEqual(rootBubble, bubble) || bubble.isCounted() ) return 0;
 			
 		bubble.setCounted();
