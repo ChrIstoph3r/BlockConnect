@@ -1,10 +1,10 @@
 
 public class Tools {
 	
-	 static boolean isColorEqual(Block bubble1, Block bubble2){
+	 static boolean isColorEqual(Block block1, Block block2){
 		
-		if(bubble2 == null || bubble1 == null) return false;
-		if(bubble1.color.equals(bubble2.color))return true;
+		if(block2 == null || block1 == null) return false;
+		if(block1.color.equals(block2.color))return true;
 		return false;
 	}
 

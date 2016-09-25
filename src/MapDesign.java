@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
@@ -14,103 +13,105 @@ public class MapDesign extends Tools{
 	
 	final int COLUMNS, ROWS;
 	
-	ArrayList<Block> bubblesOnMap;
+	Block[][] blocksOnMap;
 	LinkedList<Block> clickedLink;
 	
-	public MapDesign(int ROWS, int COLUMNS){
+	public MapDesign(int COLUMNS, int ROWS){
 		
-		this.ROWS = ROWS;
 		this.COLUMNS = COLUMNS;
+		this.ROWS = ROWS;
 		
-		bubblesOnMap = new ArrayList<Block>(ROWS*COLUMNS);
+		blocksOnMap = new Block[COLUMNS][ROWS];
 	}
 	
-	public void burstBubble(Block bubble){
+	public void burstBubble(Block block){
 		
-		setToTopColor(bubble);
+		setToTopColor(block);
 	}	
 	
 	
-	void setToTopColor(Block bubble){
+	void setToTopColor(Block block){
 		
-		if(bubble.hasTop()){
+		if(block.hasTop()){
 			
-			bubble.setColor(bubble.getTop().getColor());
-			setToTopColor(bubble.getTop());
+			block.setColor(block.getTop().getColor());
+			setToTopColor(block.getTop());
 		}else{
 			
-			bubble.setColor(genColor());
+			block.setColor(genColor());
 		}
 	}
 	
-	public ArrayList<Block> getBubblesOnMap(){
-		return bubblesOnMap;
+	public Block[][] getBlocksOnMap(){
+		return blocksOnMap;
 	}
 	
 	public void createNewMap() {
 		
-		Block prev = null;
-		Block firstColumn = null;
-		
-		for(int j = 0; j < ROWS; j++){
+		for(int y = 0; y < ROWS; y++){
 			
-			for (int i = 0; i < COLUMNS; i++){
+			for (int x = 0; x < COLUMNS; x++){
 				
-				Block bubble = new Block(i, j, genColor());
+				Block block = new Block(x, y, genColor());
 				
-				setSurroundingBubbles(bubble, firstColumn, prev);
+				blocksOnMap[x][y] = block;
 				
-				if(i == 0)firstColumn = bubble;
-				
-				bubblesOnMap.add(bubble);
-				
-				prev = bubble;
+				setSurroundingBlocks(block, getPrevBlock(x, y));
 			}
 		}
+	}
+	
+	private Block getPrevBlock(int x, int y){
+		
+		if(x == 0 && y == 0)return null;
+		
+		int prevX = x-1;
+		
+		if(prevX < 0) return blocksOnMap[x][y-1];
+		
+		return blocksOnMap[prevX][y];
 	}
 	
 	public void setLevel(int level){
 		this.level = level;
 	}
 	
-	public void setRightLeftTopBottomToBubbles(){
+	public void setRightLeftTopBottomToBlocks(){
 		
-		Block prev = null;
-		Block firstColumn = null;
-		
-		for(Block bubble : bubblesOnMap) {
+		for(int y = 0; y < ROWS; y++){
 			
-			setSurroundingBubbles(bubble, firstColumn, prev);
-			if(bubble.getPosX() == 0)firstColumn = bubble;
-			prev = bubble;
-		}	
+			for (int x = 0; x < COLUMNS; x++){
+				
+				setSurroundingBlocks(blocksOnMap[x][y], getPrevBlock(x, y));
+			}	
+		}
 	}
 	
-	private void setSurroundingBubbles(Block bubble, Block firstColumn, Block prev){
+	private void setSurroundingBlocks(Block block, Block prev){
 		
-		int posX = bubble.getPosX();
-		int posY = bubble.getPosY();
+		int posX = block.getPosX();
+		int posY = block.getPosY();
 		
 		if(posX != 0) {
-			bubble.setLeft(prev);	
-			bubble.getLeft().setRight(bubble);		
+			block.setLeft(prev);	
+			block.getLeft().setRight(block);		
 		}
 		
 		if(posY > 0) {
 			
 			if(posX == 0){
-				bubble.setTop(firstColumn);
+				block.setTop(blocksOnMap[0][--posY]);
 			}else{
-				bubble.setTop(getTopBubble(bubble));
+				block.setTop(getTopBlock(block));
 			}
 	
-			bubble.getTop().setBottom(bubble);
+			block.getTop().setBottom(block);
 		}
 	}
 	
-	private Block getTopBubble(Block bubble){
+	private Block getTopBlock(Block block){
 		
-		return bubble.getLeft().getTop().getRight();
+		return block.getLeft().getTop().getRight();
 	}
 		
 	public Color genColor() {
@@ -147,7 +148,7 @@ public class MapDesign extends Tools{
 		return color;
 	}
 
-	public void burstBubbleLink(){
+	public void burstBlockLink(){
 		
 		Collections.sort(clickedLink);
 		
@@ -157,30 +158,30 @@ public class MapDesign extends Tools{
 		}
 	}
 	
-	public int getLinkSize(Block clickedBubble){
+	public int getLinkSize(Block clickedBlock){
 		
 		clickedLink = new LinkedList<Block>();
 		
-		int linkedAmount = linkedAmount(clickedBubble, clickedBubble);
+		int linkedAmount = linkedAmount(clickedBlock, clickedBlock);
 		
 		if(linkedAmount == 1)
-			clickedBubble.setUncounted();
+			clickedBlock.setUncounted();
 		
 		return linkedAmount;
 	}
 	
-	public int linkedAmount(Block rootBubble, Block bubble){
+	public int linkedAmount(Block rootBlock, Block block){
 		
-		if(!isColorEqual(rootBubble, bubble) || bubble.isCounted() ) return 0;
+		if(!isColorEqual(rootBlock, block) || block.isCounted() ) return 0;
 			
-		bubble.setCounted();
-		clickedLink.add(bubble);
+		block.setCounted();
+		clickedLink.add(block);
 		
 		int amount = 
-				linkedAmount(bubble, bubble.getRight()) +
-				linkedAmount(bubble, bubble.getLeft()) +
-				linkedAmount(bubble, bubble.getTop()) +
-				linkedAmount(bubble, bubble.getBottom()); 
+				linkedAmount(block, block.getRight()) +
+				linkedAmount(block, block.getLeft()) +
+				linkedAmount(block, block.getTop()) +
+				linkedAmount(block, block.getBottom()); 
 		
 		return ++amount;
 	}

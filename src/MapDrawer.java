@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
@@ -12,24 +11,29 @@ public class MapDrawer extends JComponent{
 	HEIGHT_CELL = MapDesign.HEIGHT_CELL,
 	START_X = 85, START_Y = 65;
 	
-	ArrayList<Block> bubblesOnMap; 
+	Block[][] blocksOnMap; 
 	
-	public MapDrawer(ArrayList<Block> bubblesOnMap) {
+	public MapDrawer(Block[][] blocksOnMap) {
 	
-		this.bubblesOnMap = bubblesOnMap;
+		this.blocksOnMap = blocksOnMap;
 	}
 	
 	public void paintComponent(Graphics g){
 		
 		Graphics2D g2 = (Graphics2D) g;
-		
-		for(Block bubble : bubblesOnMap){
+
+		for(int y = 0; y < blocksOnMap[0].length; y++){
 			
-			g2.setColor(bubble.getColor());
+			for (int x = 0; x < blocksOnMap.length; x++){
 			
-			int jFramePosX = bubble.getPosX()*WIDTH_CELL + START_X;
-			int jFramePosY = bubble.getPosY()*HEIGHT_CELL + START_Y;
-			g2.fillRect(jFramePosX, jFramePosY, WIDTH_CELL, HEIGHT_CELL);
-		}	
+				Block block = blocksOnMap[x][y];
+				
+				g2.setColor(block.getColor());
+				
+				int jFramePosX = block.getPosX()*WIDTH_CELL + START_X;
+				int jFramePosY = block.getPosY()*HEIGHT_CELL + START_Y;
+				g2.fillRect(jFramePosX, jFramePosY, WIDTH_CELL, HEIGHT_CELL);
+			}	
+		}
 	}
 }

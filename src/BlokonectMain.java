@@ -27,21 +27,23 @@ public class BlokonectMain {
 		optionsPopUp();
 		makeFrame();
 		
-		gameLoop(true);
+		gameLoop(true, 0);
 	}
 	
-	private static void gameLoop(boolean newLevel){
+	private static void gameLoop(boolean newLevel, int linkSize){
 		
 		if(newLevel){
-			mapDesign = new MapDesign(ROWS, COLUMNS);
+			mapDesign = new MapDesign(COLUMNS, ROWS);
 			mapDesign.setLevel(level);
 			mapDesign.createNewMap();
 		}else{
-			mapDesign.burstBubbleLink();
-			mapDesign.setRightLeftTopBottomToBubbles();
+			removeComponentsFromFrame();
+			mapDesign.burstBlockLink();
+			addScore(linkSize);
+			mapDesign.setRightLeftTopBottomToBlocks();
 		}
 		
-		mapDrawer = new MapDrawer(mapDesign.getBubblesOnMap() );
+		mapDrawer = new MapDrawer(mapDesign.getBlocksOnMap() );
 		addComponentsToFrame(mapDrawer);
 		
 		if(clicksLeft < 1)noMoreTurns();
@@ -117,17 +119,13 @@ public class BlokonectMain {
 	
 	static void validClick(int x, int y){
 		
-		Block clickedBubble = mapDesign.getBubblesOnMap().get(x + y*COLUMNS);
+		Block clickedBlock = mapDesign.getBlocksOnMap()[x][y];
 		
-		int linkSize = mapDesign.getLinkSize(clickedBubble);
+		int linkSize = mapDesign.getLinkSize(clickedBlock);
 		
 		if(linkSize == 1) return;
 		
-		addScore(linkSize);
-		
-		removeComponentsFromFrame();
-		
-		gameLoop(false);	
+		gameLoop(false, linkSize);	
 	}
 	
 	public static void noMoreTurns(){
@@ -135,8 +133,7 @@ public class BlokonectMain {
 		if (level < 3){
 			nextLevelSequence();
 			initNewMapVars();
-			removeComponentsFromFrame();
-   			gameLoop(true);
+   			gameLoop(true, 0);
    		 }else{
    			initNewMapVars();
    			endOfGameSequence();
@@ -175,7 +172,7 @@ public class BlokonectMain {
 		
 		level++;
 		message(" You've proceeded to level " + level + "!"
-			  + "\n Play your bubbles right, and the reward will be much greater...", " Next level" );
+			  + "\n Play your blocks right, and the reward will be much greater...", " Next level" );
 	}
 	
 	public static void initNewMapVars(){
