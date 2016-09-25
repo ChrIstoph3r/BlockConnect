@@ -30,27 +30,7 @@ public class BlokonectMain {
 		gameLoop(true, 0);
 	}
 	
-	private static void gameLoop(boolean newLevel, int linkSize){
-		
-		if(newLevel){
-			mapDesign = new MapDesign(COLUMNS, ROWS);
-			mapDesign.setLevel(level);
-			mapDesign.createNewMap();
-		}else{
-			removeComponentsFromFrame();
-			mapDesign.burstBlockLink();
-			addScore(linkSize);
-			mapDesign.setRightLeftTopBottomToBlocks();
-		}
-		
-		mapDrawer = new MapDrawer(mapDesign.getBlocksOnMap() );
-		addComponentsToFrame(mapDrawer);
-		
-		if(clicksLeft < 1)noMoreTurns();
-		
-		MouseWhisperer.onClick(mapDrawer);
-	}
-	
+
 	 /*
 	  *  Response == 0 ==> Play Now! 
 	  *  Response == 1 ==> Custom game 
@@ -63,8 +43,8 @@ public class BlokonectMain {
 	    String[] options = {"Play now!", "Custom game", "Highscore"};
 	    int response = optionsPrompt("Play now or customise it!", options, "Options");
 
-   	    if(response == 1){
-    	
+  	    if(response == 1){
+   	
 	    	String ROWSinput = inputPrompt("Enter the amount of rows u want :D (no more than 12!");  
 	    	String COLUMNSinput = inputPrompt( "Enter the amount of columns u want =) (No more than 14!)" );
 	    	String clicksPrLvlInput = inputPrompt("Enter the amount of clicks u want per level :) ");
@@ -93,28 +73,26 @@ public class BlokonectMain {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public static void addComponentsToFrame(Component map){
 	
-		textLabel = new JLabel("Clicks left: " + clicksLeft + " Score: " + score + "       ");
-		frame.getContentPane().setBackground(Color.white);
-		frame.add(map);
-		frame.add(textLabel, BorderLayout.EAST);
-		frame.setVisible(true);	
-	}
-
-	public static String[] readHighscore() {
+	private static void gameLoop(boolean newLevel, int linkSize){
 		
-		ReadFile read = new ReadFile();
+		if(newLevel){
+			mapDesign = new MapDesign(COLUMNS, ROWS);
+			mapDesign.setLevel(level);
+			mapDesign.createNewMap();
+		}else{
+			removeComponentsFromFrame();
+			mapDesign.burstBlockLink();
+			addScore(linkSize);
+			mapDesign.setRightLeftTopBottomToBlocks();
+		}
 		
-		read.openFile();
-		read.checkIfExists();
-		read.createScannner();
-		read.readFile();
-		read.close();
+		mapDrawer = new MapDrawer(mapDesign.getBlocksOnMap() );
+		addComponentsToFrame(mapDrawer);
 		
-		String[] highscore = {read.getName(), read.getHighScore()};
+		if(clicksLeft < 1)noMoreTurns();
 		
-		return highscore;
+		MouseWhisperer.onClick(mapDrawer);
 	}
 	
 	static void validClick(int x, int y){
@@ -133,6 +111,7 @@ public class BlokonectMain {
 		if (level < 3){
 			nextLevelSequence();
 			initNewMapVars();
+			removeComponentsFromFrame();
    			gameLoop(true, 0);
    		 }else{
    			initNewMapVars();
@@ -209,6 +188,30 @@ public class BlokonectMain {
 		
 		frame.remove(mapDrawer);
 		frame.remove(textLabel);
+	}
+	
+	public static void addComponentsToFrame(Component map){
+		
+		textLabel = new JLabel("Clicks left: " + clicksLeft + " Score: " + score + "       ");
+		frame.getContentPane().setBackground(Color.white);
+		frame.add(map);
+		frame.add(textLabel, BorderLayout.EAST);
+		frame.setVisible(true);	
+	}
+
+	public static String[] readHighscore() {
+		
+		ReadFile read = new ReadFile();
+		
+		read.openFile();
+		read.checkIfExists();
+		read.createScannner();
+		read.readFile();
+		read.close();
+		
+		String[] highscore = {read.getName(), read.getHighScore()};
+		
+		return highscore;
 	}
 	
 	private static void message(String msg, String title){

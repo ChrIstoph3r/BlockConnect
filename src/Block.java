@@ -135,7 +135,11 @@ public class Block implements Comparable<Block>{
 		if(getBottom() != null)
 			bottomColor = getBottom().getColorString();
 		
-		return " Left: " + leftColor + "\n Right: " + rightColor + "\n Top: " + topColor + "\n Bottom: "+ bottomColor + "\n";
+		return " Left: " + leftColor 
+				+ "\n Right: " + rightColor 
+				+ "\n Top: " + topColor 
+				+ "\n Bottom: "+ bottomColor 
+				+ "\n";
 	}
 }
 
