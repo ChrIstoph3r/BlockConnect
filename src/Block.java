@@ -113,7 +113,7 @@ public class Block implements Comparable<Block>{
 	
 	private String printBubbleCoordinate(){
 		
-		return "("+getPosX()+"," + getPosY()+") \n"; 
+		return " ("+getPosX()+"," + getPosY()+") \n"; 
 	}
 	
 	private String printSurroundingColors(){
