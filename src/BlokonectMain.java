@@ -14,7 +14,7 @@ public class BlokonectMain {
 	
 	public static int 
 	clicks = 15, clicksLeft = 15, 
-	amountOfBubbleColors = 3, 
+	amountBlockColors = 3, 
 	score = 0, level = 1;
 
 	static MapDesign mapDesign;
