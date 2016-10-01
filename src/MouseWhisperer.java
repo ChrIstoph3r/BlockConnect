@@ -11,25 +11,25 @@ public class MouseWhisperer {
 	final static int marginX = MapDrawer.START_X;
 	final static int marginY = MapDrawer.START_Y;
 		
-	final static int LAST_ROW = BlokonectMain.ROWS-1;
-	final static int LAST_COLUMN = BlokonectMain.COLUMNS-1;
+	final static int LAST_ROW = BlockConnectMain.ROWS-1;
+	final static int LAST_COLUMN = BlockConnectMain.COLUMNS-1;
 		
 	public static void onClick(Component map){
 		
 		map.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent click) {
 				
-				if(e.getX() < marginX || e.getY() < marginY)
+				if(click.getX() < marginX || click.getY() < marginY)
 					return;
 				
-				int clickedXpos = (int)( (e.getX() - marginX)/WIDTH_CELL );
-		   	 	int clickedYpos = (int)( (e.getY() - marginY)/HEIGHT_CELL);
+				int clickedXpos = (int)( (click.getX() - marginX)/WIDTH_CELL );
+		   	 	int clickedYpos = (int)( (click.getY() - marginY)/HEIGHT_CELL);
 		   	 
 			   	if(clickedXpos > LAST_COLUMN || clickedYpos > LAST_ROW)
 			   		return; 
 		   	 	
-		   	 	BlokonectMain.validClick(clickedXpos, clickedYpos);
+		   	 	BlockConnectMain.validClick(clickedXpos, clickedYpos);
 			}
 		});
 	}

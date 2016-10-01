@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class MapDesign extends Tools{
 	
@@ -29,52 +28,26 @@ public class MapDesign extends Tools{
 			
 			for (int x = 0; x < COLUMNS; x++){
 				
-				Block block = new Block(x, y, genColor());
+				blocksOnMap[x][y] = new Block(x, y, genColor()); 
 				
-				blocksOnMap[x][y] = block;
-				
-				setSurroundingBlocks(block, getPrevBlock(x, y));
+				setSurroundingBlocks(x, y);
 			}
 		}
 	}
 	
-	private void setSurroundingBlocks(Block block, Block prev){
+	private void setSurroundingBlocks(int x, int y){
 		
-		int posX = block.getPosX();
-		int posY = block.getPosY();
+		Block block = blocksOnMap[x][y];
 		
-		if(posX != 0) {
-			block.setLeft(prev);	
+		if(x != 0) {
+			block.setLeft(blocksOnMap[x-1][y]);	
 			block.getLeft().setRight(block);		
 		}
 		
-		if(posY > 0) {
-			
-			if(posX == 0){
-				block.setTop(blocksOnMap[0][--posY]);
-			}else{
-				block.setTop(getTopBlock(block));
-			}
-	
+		if(y > 0) {
+			block.setTop(blocksOnMap[x][--y]);
 			block.getTop().setBottom(block);
 		}
-	}
-	
-	private Block getTopBlock(Block block){
-		
-		return block.getLeft().getTop().getRight();
-	}
-	
-	
-	private Block getPrevBlock(int x, int y){
-		
-		if(x == 0 && y == 0)return null;
-		
-		int prevX = x-1;
-		
-		if(prevX < 0) return blocksOnMap[x][y-1];
-		
-		return blocksOnMap[prevX][y];
 	}
 	
 	public void setRightLeftTopBottomToBlocks(){
@@ -83,7 +56,7 @@ public class MapDesign extends Tools{
 			
 			for (int x = 0; x < COLUMNS; x++){
 				
-				setSurroundingBlocks(blocksOnMap[x][y], getPrevBlock(x, y));
+				setSurroundingBlocks(x, y);
 			}	
 		}
 	}
@@ -92,7 +65,9 @@ public class MapDesign extends Tools{
 		
 		clickedLink = new LinkedList<Block>();
 		
-		int linkedAmount = linkedAmount(clickedBlock, clickedBlock);
+		determineLink(clickedBlock, clickedBlock);
+		
+		int linkedAmount = clickedLink.size();
 		
 		if(linkedAmount == 1)
 			clickedBlock.setUncounted();
@@ -100,20 +75,17 @@ public class MapDesign extends Tools{
 		return linkedAmount;
 	}
 	
-	private int linkedAmount(Block rootBlock, Block block){
+	private void determineLink(Block rootBlock, Block block){
 		
-		if(!isColorEqual(rootBlock, block) || block.isCounted() ) return 0;
+		if( !isColorEqual(rootBlock, block) || block.isCounted() ) return;
 			
 		block.setCounted();
 		clickedLink.add(block);
-		
-		int amount = 
-				linkedAmount(block, block.getRight()) +
-				linkedAmount(block, block.getLeft()) +
-				linkedAmount(block, block.getTop()) +
-				linkedAmount(block, block.getBottom()); 
-		
-		return ++amount;
+		 
+		determineLink(block, block.getRight());
+		determineLink(block, block.getLeft());
+		determineLink(block, block.getTop());
+		determineLink(block, block.getBottom()); 
 	}
 	
 	public void burstBlockLink(){
@@ -131,7 +103,6 @@ public class MapDesign extends Tools{
 		setToTopColor(block);
 	}	
 	
-	
 	void setToTopColor(Block block){
 		
 		if(block.hasTop()){
@@ -148,27 +119,24 @@ public class MapDesign extends Tools{
 
 		Color color = null;
 		
-		Random number = new Random();
+		int amntOfColors = level + 2;
 		
-		int amountColors = level + 2;
-		
-		int maxRandInt = amountColors;
-		int minRandInt = 1;
-		
-		int randNumb = number.nextInt((maxRandInt-minRandInt) + 1) + minRandInt;
+		int randNumb = (int)( Math.random()*amntOfColors );
 	
+		System.out.println(randNumb);
+		
 		switch(randNumb){
 			
-			case 1:
+			case 0:
 				color = Color.GREEN;
 				break;
-			case 2: 
+			case 1: 
 				color = Color.BLUE;
 				break;
-			case 3:
+			case 2:
 				color = Color.RED;
 				break;
-			case 4:
+			case 3:
 				color = Color.ORANGE;
 				break;
 			default:

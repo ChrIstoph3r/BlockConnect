@@ -1,10 +1,13 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-public class BlokonectMain {
+public class BlockConnectMain extends Tools{
 
-	final static String TITLE = "blokonect";
+	final static String TITLE = "BlockConnect";
 	
 	final static int 
 	FRAME_HEIGHT = 800, FRAME_WIDTH = 1050;
@@ -13,7 +16,7 @@ public class BlokonectMain {
 	ROWS = 12, COLUMNS = 14;
 	
 	public static int 
-	clicks = 15, clicksLeft = 15, 
+	initialClicks = 15, clicksLeft = 15, 
 	amountBlockColors = 3, 
 	score = 0, level = 1;
 
@@ -25,18 +28,10 @@ public class BlokonectMain {
 	public static void main(String[] args)  {
 
 		optionsPopUp();
-		makeFrame();
+		makeJFrame();
 		
 		gameLoop(true, 0);
 	}
-	
-
-	 /*
-	  *  Response == 0 ==> Play Now! 
-	  *  Response == 1 ==> Custom game 
-	  *  Response == 2 ==> high score
-	  *  Response == -1 || 3 ==> Escape/Cancel.
-	  */
 
 	public static void optionsPopUp() {
 
@@ -47,12 +42,12 @@ public class BlokonectMain {
    	
 	    	String ROWSinput = inputPrompt("Enter the amount of rows u want :D (no more than 12!");  
 	    	String COLUMNSinput = inputPrompt( "Enter the amount of columns u want =) (No more than 14!)" );
-	    	String clicksPrLvlInput = inputPrompt("Enter the amount of clicks u want per level :) ");
+	    	String clicksPrLvlInput = inputPrompt("Enter the amount of initialClicks u want per level :) ");
 	    	
 	    	ROWS = Integer.parseInt (ROWSinput);
 			COLUMNS = Integer.parseInt (COLUMNSinput);
-			clicks = Integer.parseInt (clicksPrLvlInput);
-			clicksLeft = clicks;
+			initialClicks = Integer.parseInt (clicksPrLvlInput);
+			clicksLeft = initialClicks;
 
 	    }else if(response == 2){
 	    	
@@ -63,7 +58,7 @@ public class BlokonectMain {
 	    }
 	}
 	
-	public static void makeFrame(){
+	public static void makeJFrame(){
 		
 		frame = new JFrame();
 		
@@ -72,7 +67,6 @@ public class BlokonectMain {
 		frame.setTitle(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
 	
 	private static void gameLoop(boolean newLevel, int linkSize){
 		
@@ -108,35 +102,26 @@ public class BlokonectMain {
 	
 	public static void noMoreTurns(){
 		
+		clicksLeft = initialClicks;
+		
 		if (level < 3){
 			nextLevelSequence();
-			initNewMapVars();
 			removeComponentsFromFrame();
    			gameLoop(true, 0);
    		 }else{
-   			initNewMapVars();
    			endOfGameSequence();
    			resetGame();
    		 }		
 	}
 	
-	public static void endOfGameSequence(){
+	private static void endOfGameSequence(){
 		
 		String[] highScore = readHighscore();
 		int highScorePoints = Integer.parseInt(highScore[1]);
 		
 		if(score > highScorePoints){
 			
-			WriteFile write = new WriteFile();
-			
-			write.openFile();
-			write.addHighscore(score);
-		
-			String nameHighScore = inputPrompt(" Congrats! U got a new highscore of " + score + "!" 
-											  + "\n Write ur name here!");
-			write.addNameHighscore(nameHighScore);
-			
-			write.closeFile();
+			writeNewHighScore(score);
 		}else {
 			
 			message(" You got a score of " + score + "... "
@@ -146,17 +131,12 @@ public class BlokonectMain {
 					+ "\n It's OWNED by " + highScore[0], " Game over");
 		}
 	}
-	
+
 	public static void nextLevelSequence(){
 		
 		level++;
 		message(" You've proceeded to level " + level + "!"
 			  + "\n Play your blocks right, and the reward will be much greater...", " Next level" );
-	}
-	
-	public static void initNewMapVars(){
-		
-		clicksLeft = clicks;
 	}
 	
 	public static void resetGame(){
@@ -198,37 +178,4 @@ public class BlokonectMain {
 		frame.add(textLabel, BorderLayout.EAST);
 		frame.setVisible(true);	
 	}
-
-	public static String[] readHighscore() {
-		
-		ReadFile read = new ReadFile();
-		
-		read.openFile();
-		read.checkIfExists();
-		read.createScannner();
-		read.readFile();
-		read.close();
-		
-		String[] highscore = {read.getName(), read.getHighScore()};
-		
-		return highscore;
-	}
-	
-	private static void message(String msg, String title){
-		
-		JOptionPane.showMessageDialog(null, msg, title, JOptionPane.PLAIN_MESSAGE);
-	}
-	
-	private static int optionsPrompt(String txt, String[] options, String title){
-		
-		return JOptionPane.showOptionDialog(null, txt, title,
-			    							JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, 
-			    							null, options, options[0]);
-	}
-	
-	private static String inputPrompt(String txt){
-		
-		return JOptionPane.showInputDialog (null, txt, " Input", JOptionPane.QUESTION_MESSAGE );
-	}
-	
 }
