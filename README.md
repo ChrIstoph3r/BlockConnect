@@ -5,5 +5,5 @@ A simple and efficient game, exploiting algorithm knowledge (Y)
 Try the finished game by clicking [here](https://github.com/ChrIstoph3r/Blokonect/raw/master/blokonect.jar) :)
 
 ## Screenshot
-<img src="https://github.com/ChrIstoph3r/BlockConnect/Screenshot.PNG" width="320">
+<img src="https://github.com/ChrIstoph3r/BlockConnect/blob/master/Screenshot.PNG" width="320">
  
