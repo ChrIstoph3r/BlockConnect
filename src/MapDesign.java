@@ -11,8 +11,8 @@ public class MapDesign extends Tools{
 	
 	final int COLUMNS, ROWS;
 	
-	Block[][] blocksOnMap;
-	LinkedList<Block> clickedLink;
+	private Block[][] blocksOnMap;
+	private LinkedList<Block> clickedLink;
 	
 	public MapDesign(int COLUMNS, int ROWS){
 		
@@ -98,12 +98,12 @@ public class MapDesign extends Tools{
 		}
 	}
 	
-	public void burstBubble(Block block){
+	private void burstBubble(Block block){
 		
 		setToTopColor(block);
 	}	
 	
-	void setToTopColor(Block block){
+	private void setToTopColor(Block block){
 		
 		if(block.hasTop()){
 			
@@ -123,8 +123,6 @@ public class MapDesign extends Tools{
 		
 		int randNumb = (int)( Math.random()*amntOfColors );
 	
-		System.out.println(randNumb);
-		
 		switch(randNumb){
 			
 			case 0:
