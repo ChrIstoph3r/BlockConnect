@@ -13,12 +13,11 @@ public class BlockConnectMain extends Tools{
 	FRAME_HEIGHT = 800, FRAME_WIDTH = 1050;
 	
 	static int 
-	ROWS = 12, COLUMNS = 14;
-	
-	public static int 
-	initialClicks = 15, clicksLeft = 15, 
+	ROWS = 12, COLUMNS = 14,
+	initialClicks = 15,
 	amountBlockColors = 3, 
-	score = 0, level = 1;
+	score = 0, level = 1,
+	clicksLeft = initialClicks;
 
 	static MapDesign mapDesign;
 	static Component mapDrawer;
@@ -47,7 +46,6 @@ public class BlockConnectMain extends Tools{
 	    	ROWS = Integer.parseInt (ROWSinput);
 			COLUMNS = Integer.parseInt (COLUMNSinput);
 			initialClicks = Integer.parseInt (clicksPrLvlInput);
-			clicksLeft = initialClicks;
 
 	    }else if(response == 2){
 	    	

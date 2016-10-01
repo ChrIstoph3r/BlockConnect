@@ -30,8 +30,8 @@ public class MapDrawer extends JComponent{
 				
 				g2.setColor(block.getColor());
 				
-				int jFramePosX = block.getPosX()*WIDTH_CELL + START_X;
-				int jFramePosY = block.getPosY()*HEIGHT_CELL + START_Y;
+				int jFramePosX = x*WIDTH_CELL + START_X;
+				int jFramePosY = y*HEIGHT_CELL + START_Y;
 				g2.fillRect(jFramePosX, jFramePosY, WIDTH_CELL, HEIGHT_CELL);
 			}	
 		}
