@@ -78,7 +78,6 @@ public class BlockConnectMain extends Tools{
 			removeComponentsFromFrame();
 			mapDesign.burstBlockLink();
 			addScore(linkSize);
-			mapDesign.setRightLeftTopBottomToBlocks();
 		}
 		
 		mapDrawer = new MapDrawer(mapDesign.getBlocksOnMap() );

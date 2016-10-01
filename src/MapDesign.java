@@ -29,35 +29,7 @@ public class MapDesign extends Tools{
 			for (int x = 0; x < COLUMNS; x++){
 				
 				blocksOnMap[x][y] = new Block(x, y, genColor()); 
-				
-				setSurroundingBlocks(x, y);
 			}
-		}
-	}
-	
-	private void setSurroundingBlocks(int x, int y){
-		
-		Block block = blocksOnMap[x][y];
-		
-		if(x != 0) {
-			block.setLeft(blocksOnMap[x-1][y]);	
-			block.getLeft().setRight(block);		
-		}
-		
-		if(y > 0) {
-			block.setTop(blocksOnMap[x][--y]);
-			block.getTop().setBottom(block);
-		}
-	}
-	
-	public void setRightLeftTopBottomToBlocks(){
-		
-		for(int y = 0; y < ROWS; y++){
-			
-			for (int x = 0; x < COLUMNS; x++){
-				
-				setSurroundingBlocks(x, y);
-			}	
 		}
 	}
 	
@@ -82,12 +54,12 @@ public class MapDesign extends Tools{
 		block.setCounted();
 		clickedLink.add(block);
 		 
-		determineLink(block, block.getRight());
-		determineLink(block, block.getLeft());
-		determineLink(block, block.getTop());
-		determineLink(block, block.getBottom()); 
+		determineLink(block, getRight(block));
+		determineLink(block, getLeft(block));
+		determineLink(block, getTop(block));
+		determineLink(block, getBottom(block)); 
 	}
-	
+
 	public void burstBlockLink(){
 		
 		Collections.sort(clickedLink);
@@ -105,10 +77,12 @@ public class MapDesign extends Tools{
 	
 	private void setToTopColor(Block block){
 		
-		if(block.hasTop()){
+		Block topBlock = getTop(block);
+		
+		if(topBlock != null){
 			
-			block.setColor(block.getTop().getColor());
-			setToTopColor(block.getTop());
+			block.setColor(topBlock.getColor());
+			setToTopColor(topBlock);
 		}else{
 			
 			block.setColor(genColor());
@@ -142,6 +116,50 @@ public class MapDesign extends Tools{
 		}
 		
 		return color;
+	}
+	
+	private Block getLeft(Block block){
+		
+		int x = block.getPosX();
+		
+		if(x == 0) return null;
+		
+		int y = block.getPosY();
+		
+		return blocksOnMap[--x][y];
+	}
+	
+	private Block getRight(Block block){
+		
+		int x = block.getPosX();
+		
+		if(x == COLUMNS - 1) return null;
+		
+		int y = block.getPosY();
+		
+		return blocksOnMap[++x][y];
+	}
+
+	private Block getTop(Block block){
+		
+		int y = block.getPosY();
+		
+		if(y == 0) return null;
+		
+		int x = block.getPosX();
+		
+		return blocksOnMap[x][--y];
+	}
+
+	private Block getBottom(Block block){
+		
+		int y = block.getPosY();
+		
+		if(y == ROWS- 1) return null;
+		
+		int x = block.getPosX();
+		
+		return blocksOnMap[x][++y];
 	}
 	
 	public Block[][] getBlocksOnMap(){
