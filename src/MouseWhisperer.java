@@ -1,4 +1,3 @@
-
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,7 +23,7 @@ public class MouseWhisperer {
 					return;
 				
 				int clickedXpos = (int)( (click.getX() - marginX)/WIDTH_CELL );
-		   	 	int clickedYpos = (int)( (click.getY() - marginY)/HEIGHT_CELL);
+		   	 	int clickedYpos = (int)( (click.getY() - marginY)/HEIGHT_CELL );
 		   	 
 			   	if(clickedXpos > LAST_COLUMN || clickedYpos > LAST_ROW)
 			   		return; 

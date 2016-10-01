@@ -76,7 +76,7 @@ public class BlockConnectMain extends Tools{
 			mapDesign.createNewMap();
 		}else{
 			removeComponentsFromFrame();
-			mapDesign.burstBlockLink();
+			mapDesign.collapseBlockLink();
 			addScore(linkSize);
 		}
 		

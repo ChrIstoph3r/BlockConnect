@@ -24,13 +24,9 @@ public class MapDesign extends Tools{
 	
 	public void createNewMap() {
 		
-		for(int y = 0; y < ROWS; y++){
-			
-			for (int x = 0; x < COLUMNS; x++){
-				
+		for(int y = 0; y < ROWS; y++)
+			for (int x = 0; x < COLUMNS; x++)
 				blocksOnMap[x][y] = new Block(x, y, genColor()); 
-			}
-		}
 	}
 	
 	public int getLinkSize(Block clickedBlock){
@@ -54,23 +50,23 @@ public class MapDesign extends Tools{
 		block.setCounted();
 		clickedLink.add(block);
 		 
-		determineLink(block, getRight(block));
 		determineLink(block, getLeft(block));
+		determineLink(block, getRight(block));
 		determineLink(block, getTop(block));
 		determineLink(block, getBottom(block)); 
 	}
 
-	public void burstBlockLink(){
+	public void collapseBlockLink(){
 		
 		Collections.sort(clickedLink);
 		
 		for(Block b : clickedLink){
-			burstBubble(b);
+			collapseBlock(b);
 			b.setUncounted();
 		}
 	}
 	
-	private void burstBubble(Block block){
+	private void collapseBlock(Block block){
 		
 		setToTopColor(block);
 	}	
@@ -155,7 +151,7 @@ public class MapDesign extends Tools{
 		
 		int y = block.getPosY();
 		
-		if(y == ROWS- 1) return null;
+		if(y == ROWS - 1) return null;
 		
 		int x = block.getPosX();
 		
