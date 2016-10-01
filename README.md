@@ -2,7 +2,7 @@
 
 A simple and efficient game, exploiting algorithm knowledge (Y)
 
-Connect as many blocks as possible, by clicking and thereby collapsing them. 
+Connect as many blocks as possible, by clicking and thereby collapsing smaller connections. 
 Ultimately collapse large connections for a large score ;)  
 
 The game provides multiple levels, custom options and a local high score.
