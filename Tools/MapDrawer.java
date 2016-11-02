@@ -1,6 +1,10 @@
+package Tools;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JComponent;
+
+import GameCore.Block;
+import GameCore.MapDesign;
 
 @SuppressWarnings("serial")
 public class MapDrawer extends JComponent{

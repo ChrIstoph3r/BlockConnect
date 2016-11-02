@@ -1,3 +1,4 @@
+package GameCore;
 import java.awt.Color;
 
 public class Block implements Comparable<Block>{

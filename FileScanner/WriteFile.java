@@ -1,3 +1,4 @@
+package FileScanner;
 import java.util.Formatter;
 
 public class WriteFile {

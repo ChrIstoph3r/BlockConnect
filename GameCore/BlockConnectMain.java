@@ -1,9 +1,15 @@
+package GameCore;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import Tools.MapDrawer;
+import Tools.MouseWhisperer;
+import Tools.Tools;
 
 public class BlockConnectMain extends Tools{
 
@@ -78,7 +84,7 @@ public class BlockConnectMain extends Tools{
 		MouseWhisperer.onClick(mapDrawer);
 	}
 
-	static void validClick(int x, int y){
+	public static void validClick(int x, int y){
 
 		Block clickedBlock = mapDesign.getBlocksOnMap()[x][y];
 
