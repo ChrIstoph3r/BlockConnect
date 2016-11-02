@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JComponent;
 
 @SuppressWarnings("serial")
@@ -22,13 +21,11 @@ public class MapDrawer extends JComponent{
 		
 		Graphics2D g2 = (Graphics2D) g;
 
-		for(int y = 0; y < blocksOnMap[0].length; y++){
+		for(int y = blocksOnMap[0].length-1; y > -1 ; y--){
 			
-			for (int x = 0; x < blocksOnMap.length; x++){
+			for (int x = blocksOnMap.length-1; x > -1 ; x--){
 			
-				Block block = blocksOnMap[x][y];
-				
-				g2.setColor(block.getColor());
+				g2.setColor(blocksOnMap[x][y].getColor());
 				
 				int jFramePosX = x*WIDTH_CELL + START_X;
 				int jFramePosY = y*HEIGHT_CELL + START_Y;

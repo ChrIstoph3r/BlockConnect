@@ -33,7 +33,7 @@ public class MapDesign extends Tools{
 		
 		clickedLink = new LinkedList<Block>();
 		
-		determineLink(clickedBlock, clickedBlock);
+		countLink(clickedBlock, clickedBlock);
 		
 		int linkedAmount = clickedLink.size();
 		
@@ -43,17 +43,17 @@ public class MapDesign extends Tools{
 		return linkedAmount;
 	}
 	
-	private void determineLink(Block rootBlock, Block block){
+	private void countLink(Block rootBlock, Block block){
 		
 		if( !isColorEqual(rootBlock, block) || block.isCounted() ) return;
 			
 		block.setCounted();
 		clickedLink.add(block);
 		 
-		determineLink(block, getLeft(block));
-		determineLink(block, getRight(block));
-		determineLink(block, getTop(block));
-		determineLink(block, getBottom(block)); 
+		countLink(block, getLeft(block));
+		countLink(block, getRight(block));
+		countLink(block, getTop(block));
+		countLink(block, getBottom(block)); 
 	}
 
 	public void collapseBlockLink(){
@@ -87,8 +87,6 @@ public class MapDesign extends Tools{
 	
 	public Color genColor() {
 
-		Color color = null;
-		
 		int amntOfColors = level + 2;
 		
 		int randNumb = (int)( Math.random()*amntOfColors );
@@ -96,22 +94,16 @@ public class MapDesign extends Tools{
 		switch(randNumb){
 			
 			case 0:
-				color = Color.GREEN;
-				break;
+				return Color.GREEN;
 			case 1: 
-				color = Color.BLUE;
-				break;
+				return Color.BLUE;
 			case 2:
-				color = Color.RED;
-				break;
+				return Color.RED;
 			case 3:
-				color = Color.ORANGE;
-				break;
-			default:
-				color = Color.DARK_GRAY;
+				return Color.ORANGE;
 		}
 		
-		return color;
+		return Color.DARK_GRAY;
 	}
 	
 	private Block getLeft(Block block){
@@ -129,7 +121,7 @@ public class MapDesign extends Tools{
 		
 		int x = block.getPosX();
 		
-		if(x == COLUMNS - 1) return null;
+		if(x == COLUMNS-1) return null;
 		
 		int y = block.getPosY();
 		
@@ -151,7 +143,7 @@ public class MapDesign extends Tools{
 		
 		int y = block.getPosY();
 		
-		if(y == ROWS - 1) return null;
+		if(y == ROWS-1) return null;
 		
 		int x = block.getPosX();
 		
